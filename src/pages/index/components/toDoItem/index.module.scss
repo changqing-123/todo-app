@@ -1,0 +1,30 @@
+.container{
+  color: white;
+  font-size: 28rpx;
+  width: 100%;
+  padding: 20rpx;
+  margin-bottom: 10rpx;
+  background-color:$todo-primary-color;
+  border-radius: $todo-border-radius;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  opacity: 0.5;
+
+  .checkbox{
+    margin-right: 20rpx;
+    // --checkbox-checked-icon-border-color:#004572;
+    // --checkbox-checked-icon-background-color: #fff;
+  }
+
+  .text{
+    flex: 1;
+  }
+
+  .delete{
+    height: 30rpx;
+    width: 28rpx;
+    color: white;
+  }
+}
+

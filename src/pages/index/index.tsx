@@ -1,0 +1,68 @@
+import { View } from '@tarojs/components'
+import { useLoad } from '@tarojs/taro'
+import styles from './index.module.scss'
+import { useState } from 'react'
+import AddToDoDialog from './components/addToDoDialog'
+import ToDOItem from './components/toDoItem'
+import { completeTodo, deleteTodo, getTodoList } from '@/apis/todoServices'
+import useGetTodoList from './hooks/useGetTodoList'
+export default function Index () {
+  const [open, setOpen] = useState(false);
+  const {todoList, run} = useGetTodoList();
+  const onCloseDialog = () => {
+    setOpen(false);
+    run();
+  }
+
+  const onOpenDialog = () => {
+    setOpen(true)
+  }
+
+  const finishItem=async(id:string,completed:boolean)=>{
+    try{
+      const result = await completeTodo({id, completed});
+      if(result.statusCode === 200){
+        run();
+        return;
+      }
+      console.error('操作失败', result);
+    }catch(error){
+      console.error('操作失败', error);
+    }
+  }
+
+  const onDeleteItem=async(id:string)=>{
+    try{
+      const result = await deleteTodo(id);
+      console.log('删除成功:',result);
+      run();
+    }catch(err){
+      console.error('删除失败',err);
+      
+    }
+  }
+  useLoad(() => {
+    console.log('Page loaded.')
+    getTodoList();
+  })
+  return (
+    <View className={styles.index}>
+      <View className={styles.container}>
+        {todoList.map((item)=><ToDOItem
+        key={item.id}
+        title={item.title}
+        completed={item.completed} 
+        onChange={(v)=>finishItem(item.id, !item.completed)} 
+        onDelete={()=>onDeleteItem(item.id)}
+        />)}
+      </View>
+      <View
+      className={styles.buttonArea}
+      onClick={onOpenDialog}
+      >
+        +
+      </View>
+      <AddToDoDialog open={open} onClose={onCloseDialog}/>
+    </View>
+  )
+}

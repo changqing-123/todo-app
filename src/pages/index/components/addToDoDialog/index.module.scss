@@ -1,0 +1,25 @@
+.addDialog {
+  width: 100%;
+  padding: 48rpx;
+  box-sizing: border-box;
+
+  .title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .priority{
+    --radio-checked-icon-background-color: #00447299;
+    --radio-checked-icon-border-color:#00447299;
+  }
+
+  .addSubmit{
+    width: 100%;
+    color: white;
+    background: #004572;
+    opacity: 0.5;
+    margin-top: 24rpx;
+  }
+}
