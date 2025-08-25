@@ -1,12 +1,10 @@
-import { useRef } from 'react'
-import { Button, Popup, Form, Input, Radio, Divider } from '@taroify/core'
+import { useEffect, useRef } from 'react'
+import { Button, Popup, Form, Input, Radio } from '@taroify/core'
 import { Text, View } from '@tarojs/components'
 import styles from './index.module.scss'
 import { Cross } from '@taroify/icons'
 import { FormInstance } from '@taroify/core/form'
 import { createTodo } from '@/apis/todoServices'
-
-
 
 export default function AddToDoDialog({
   open,
@@ -26,6 +24,13 @@ export default function AddToDoDialog({
         console.error('创建失败', error);
       }
   }
+
+  useEffect(()=>{
+    if(open){
+      formRef.current?.reset()
+    }
+  },[open])
+
   return (
     <View>
       <Popup
@@ -50,7 +55,6 @@ export default function AddToDoDialog({
                 <Input placeholder='待办事项名称'/>
               </Form.Control>
             </Form.Item>
-            <Divider style={{ borderColor: "#9999997b"}}/>
             <Form.Item name="priority">
               <Form.Label>优先级</Form.Label>
               <Form.Control>

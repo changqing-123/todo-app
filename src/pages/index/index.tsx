@@ -1,14 +1,14 @@
 import { View } from '@tarojs/components'
-import { useLoad } from '@tarojs/taro'
 import styles from './index.module.scss'
 import { useState } from 'react'
 import AddToDoDialog from './components/addToDoDialog'
 import ToDOItem from './components/toDoItem'
-import { completeTodo, deleteTodo, getTodoList } from '@/apis/todoServices'
+import { completeTodo, deleteTodo } from '@/apis/todoServices'
 import useGetTodoList from './hooks/useGetTodoList'
+import { Button } from '@taroify/core'
 export default function Index () {
   const [open, setOpen] = useState(false);
-  const {todoList, run} = useGetTodoList();
+  const {todoList, run, getUserInfo} = useGetTodoList();
   const onCloseDialog = () => {
     setOpen(false);
     run();
@@ -18,7 +18,7 @@ export default function Index () {
     setOpen(true)
   }
 
-  const finishItem=async(id:string,completed:boolean)=>{
+  const finishItem=async(id:number,completed:boolean)=>{
     try{
       const result = await completeTodo({id, completed});
       if(result.statusCode === 200){
@@ -31,7 +31,7 @@ export default function Index () {
     }
   }
 
-  const onDeleteItem=async(id:string)=>{
+  const onDeleteItem=async(id:number)=>{
     try{
       const result = await deleteTodo(id);
       console.log('删除成功:',result);
@@ -41,10 +41,7 @@ export default function Index () {
       
     }
   }
-  useLoad(() => {
-    console.log('Page loaded.')
-    getTodoList();
-  })
+
   return (
     <View className={styles.index}>
       <View className={styles.container}>
@@ -52,6 +49,7 @@ export default function Index () {
         key={item.id}
         title={item.title}
         completed={item.completed} 
+        periods={item.created_at}
         onChange={(v)=>finishItem(item.id, !item.completed)} 
         onDelete={()=>onDeleteItem(item.id)}
         />)}
