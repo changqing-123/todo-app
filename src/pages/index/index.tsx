@@ -5,10 +5,9 @@ import AddToDoDialog from './components/addToDoDialog'
 import ToDOItem from './components/toDoItem'
 import { completeTodo, deleteTodo } from '@/apis/todoServices'
 import useGetTodoList from './hooks/useGetTodoList'
-import { Button } from '@taroify/core'
 export default function Index () {
   const [open, setOpen] = useState(false);
-  const {todoList, run, getUserInfo} = useGetTodoList();
+  const {todoList, run} = useGetTodoList();
   const onCloseDialog = () => {
     setOpen(false);
     run();
