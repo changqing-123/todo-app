@@ -1,0 +1,62 @@
+.container{
+  width: 100vw;
+  height: 100vh;
+  background-color: $todo-secondary-color;
+
+  .userInfo{
+    height: 200rpx;
+    background-color: $todo-primary-color;
+    opacity: 0.5;
+    padding: 20rpx;
+    margin: 10rpx;
+    margin-top: 0;
+    border-radius: $todo-border-radius;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+
+    .avatar, .setUserInfoBtn{
+      width: 150rpx;
+      height: 150rpx;
+      border-radius: 50%;
+    }
+
+    .info{
+      margin-left: 20rpx;
+      display: flex;
+      flex-direction: column;
+    }
+    .name{
+      color: white;
+      font-size: 32rpx;
+      font-weight: 500;
+    }
+
+    .desc{
+      color: white;
+      font-size: 20rpx;
+    }
+
+    .setUserAvatarBtn{
+      position: absolute;
+      left: 20rpx;
+      opacity: 0;
+    }
+
+    .setUserNickNameIpt{
+      position: absolute;
+      left: 170rpx;
+      color: white;
+      font-size: 32rpx;
+      font-weight: 500;
+    }
+  }
+
+  .settingArea{
+    width: 100vw;
+    padding: 20rpx 10rpx;
+    box-sizing: border-box;
+  }
+}

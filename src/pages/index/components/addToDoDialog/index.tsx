@@ -13,8 +13,8 @@ export default function AddToDoDialog({
   const formRef = useRef<FormInstance>()
   const onSubmit = async()=>{
     try{
-        console.log('submit', formRef.current?.getValues());
-        const values:any = formRef.current?.getValues()
+        if(!formRef.current)return;
+        const values:any = formRef.current.getValues()
         const res = await createTodo(values);
         if(res.statusCode === 200){
           onClose()
@@ -26,8 +26,8 @@ export default function AddToDoDialog({
   }
 
   useEffect(()=>{
-    if(open){
-      formRef.current?.reset()
+    if(open && formRef.current){
+      formRef.current.reset()
     }
   },[open])
 

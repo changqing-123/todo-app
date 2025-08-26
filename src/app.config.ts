@@ -1,7 +1,7 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/Remind/index',
+    'pages/remind/index',
     'pages/stats/index',
     'pages/mine/index',
   ],
@@ -14,8 +14,8 @@ export default defineAppConfig({
         selectedIconPath:'./public/tabicon/todo-active.jpg'
       },
       {
-        pagePath:'pages/Remind/index',
-        text:'提醒',
+        pagePath:'pages/remind/index',
+        text:'计时',
         iconPath:'./public/tabicon/clock.jpg',
         selectedIconPath:'./public/tabicon/clock-active.jpg'
       },

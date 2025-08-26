@@ -5,15 +5,18 @@ import AddToDoDialog from './components/addToDoDialog'
 import ToDOItem from './components/toDoItem'
 import { completeTodo, deleteTodo } from '@/apis/todoServices'
 import useGetTodoList from './hooks/useGetTodoList'
+import userInfoStore from '@/store/userInfoStore'
 export default function Index () {
   const [open, setOpen] = useState(false);
   const {todoList, run} = useGetTodoList();
+  const userInfo = userInfoStore((state)=>state.userInfo)
   const onCloseDialog = () => {
     setOpen(false);
     run();
   }
 
   const onOpenDialog = () => {
+    console.log('userInfo',userInfo);
     setOpen(true)
   }
 
@@ -40,6 +43,7 @@ export default function Index () {
       
     }
   }
+console.log('userInfo',userInfo);
 
   return (
     <View className={styles.index}>
@@ -59,6 +63,7 @@ export default function Index () {
       >
         +
       </View>
+      
       <AddToDoDialog open={open} onClose={onCloseDialog}/>
     </View>
   )
