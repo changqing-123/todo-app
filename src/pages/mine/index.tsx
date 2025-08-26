@@ -1,7 +1,7 @@
 import { Button, Image, View } from '@tarojs/components'
 import styles from './index.module.scss';
 import userInfoStore from '@/store/userInfoStore';
-import SettingItem from './settingItem';
+import SettingItem from '@/components/settingItem/settingItem';
 import { settingList } from './constants';
 
 export default function Mine() {

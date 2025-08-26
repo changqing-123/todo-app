@@ -3,7 +3,7 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/remind/index',
     'pages/stats/index',
-    'pages/mine/index',
+    'pages/mine/index'
   ],
   tabBar:{
     list:[
@@ -36,6 +36,15 @@ export default defineAppConfig({
     backgroundColor:'#E9F4FF',
     borderStyle:'white'
   },
+
+  subPackages:[
+    {
+      root:'packageUser',
+      pages:[
+        'pages/userInfo/index'
+      ]
+    }
+  ],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#E9F4FF',
