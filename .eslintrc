@@ -1,7 +1,36 @@
 {
-  "extends": ["taro/react"],
+  "extends": ["@tarojs/eslint-config"],
+  "plugins": ["import"],
   "rules": {
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    // import 排序规则
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin", // Node.js 内置模块
+          "external", // npm 安装的外部包
+          "internal", // 项目内部别名导入
+          "parent", // 父级目录导入
+          "sibling", // 同级目录导入
+          "index", // index 文件导入
+          "object", // 对象导入
+          "type" // TypeScript 类型导入
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/**", // 项目别名导入
+            "group": "internal",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["type"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "warnOnUnassignedImports": true
+      }
+    ]
   }
 }

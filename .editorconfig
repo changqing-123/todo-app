@@ -10,3 +10,5 @@ insert_final_newline = true
 
 [*.md]
 trim_trailing_whitespace = false
+[*.ts]
+importSortOrder = builtin,external,internal,parent,sibling,index

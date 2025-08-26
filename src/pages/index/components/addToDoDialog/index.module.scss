@@ -3,19 +3,19 @@
   padding: 48rpx;
   box-sizing: border-box;
 
-  .title{
+  .title {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .priority{
+  .priority {
     --radio-checked-icon-background-color: #00447299;
-    --radio-checked-icon-border-color:#00447299;
+    --radio-checked-icon-border-color: #00447299;
   }
 
-  .addSubmit{
+  .addSubmit {
     width: 100%;
     color: white;
     background: #004572;

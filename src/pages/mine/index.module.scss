@@ -1,9 +1,9 @@
-.container{
+.container {
   width: 100vw;
   height: 100vh;
   background-color: $todo-secondary-color;
 
-  .userInfo{
+  .userInfo {
     height: 200rpx;
     background-color: $todo-primary-color;
     opacity: 0.5;
@@ -17,35 +17,36 @@
     justify-content: flex-start;
     position: relative;
 
-    .avatar, .setUserInfoBtn{
+    .avatar,
+    .setUserInfoBtn {
       width: 150rpx;
       height: 150rpx;
       border-radius: 50%;
     }
 
-    .info{
+    .info {
       margin-left: 20rpx;
       display: flex;
       flex-direction: column;
     }
-    .name{
+    .name {
       color: white;
       font-size: 32rpx;
       font-weight: 500;
     }
 
-    .desc{
+    .desc {
       color: white;
       font-size: 20rpx;
     }
 
-    .setUserAvatarBtn{
+    .setUserAvatarBtn {
       position: absolute;
       left: 20rpx;
       opacity: 0;
     }
 
-    .setUserNickNameIpt{
+    .setUserNickNameIpt {
       position: absolute;
       left: 170rpx;
       color: white;
@@ -54,7 +55,7 @@
     }
   }
 
-  .settingArea{
+  .settingArea {
     width: 100vw;
     padding: 20rpx 10rpx;
     box-sizing: border-box;
