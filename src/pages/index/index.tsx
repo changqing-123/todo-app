@@ -1,10 +1,10 @@
 import { completeTodo, deleteTodo } from '@/apis/todoServices'
 import userInfoStore from '@/store/userInfoStore'
 import { View } from '@tarojs/components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import useGetTodoList from '../../hooks/useGetTodoList'
 import AddToDoDialog from './components/addToDoDialog'
 import ToDOItem from './components/toDoItem'
-import useGetTodoList from './hooks/useGetTodoList'
 import styles from './index.module.scss'
 export default function Index() {
   const [open, setOpen] = useState(false)
@@ -42,8 +42,13 @@ export default function Index() {
       console.error('删除失败', err)
     }
   }
-  console.log('userInfo', userInfo)
 
+  useEffect(() => {
+    console.log('todoList', todoList)
+  }, [todoList])
+
+  console.log('userInfo', userInfo)
+  console.log('Index-todoList', todoList)
   return (
     <View className={styles.index}>
       <View className={styles.container}>

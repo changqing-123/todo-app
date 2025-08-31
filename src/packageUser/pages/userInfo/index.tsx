@@ -11,31 +11,30 @@ const genderList = [
 ]
 export default function UserInfoPage() {
   const [openPicker, setOpenPicker] = useState(false)
-  const [submitValue, setSubmitValue] = useState<any>({})
   const userInfo = userInfoStore(state => state.userInfo)
   const setUserInfo = userInfoStore(state => state.setUserInfo)
+  const [submitValue, setSubmitValue] = useState<any>({
+    avatarUrl: userInfo.avatarUrl,
+    nickName: userInfo.nickName
+  })
 
   const onChangeAvatar = e => {
     console.log('onChangeAvatar', e)
-    setUserInfo({ avatarUrl: e.detail.avatarUrl })
     setSubmitValue(preVal => ({ ...preVal, avatarUrl: e.detail.avatarUrl }))
   }
   const onGenderChange = (value: string) => {
     console.log('gender change', value)
-    setUserInfo({ gender: value?.[0] })
     setSubmitValue(preVal => ({ ...preVal, gender: value?.[0] }))
     setOpenPicker(false)
   }
 
   const onChangeNickName = e => {
     console.log('e:', e)
-    setUserInfo({ nickName: e.detail.value })
     setSubmitValue(preVal => ({ ...preVal, nickName: e.detail.value }))
   }
 
   const onChangeDesc = e => {
     console.log('onChangeDesc:', e.detail.value)
-    setUserInfo({ desc: e.detail.value })
     setSubmitValue(preVal => ({ ...preVal, desc: e.detail.value }))
   }
 
