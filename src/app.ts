@@ -10,8 +10,18 @@ function App({ children }: PropsWithChildren<any>) {
   const setUserInfo = userInfoStore(state => state.setUserInfo)
   const { run } = useGetTodoList()
 
-  useLaunch(() => {
+  useLaunch(async () => {
     console.log('App launched.')
+    const userRes = await getUserInfo()
+    if (userRes.data.data) {
+      const userInfo = userRes.data.data
+      setUserInfo({
+        nickName: userInfo.name,
+        avatarUrl: userInfo.avatar_url,
+        desc: userInfo.user_desc,
+        gender: userInfo.gender
+      })
+    }
   })
 
   const getUserInfoFn = async () => {
@@ -24,8 +34,15 @@ function App({ children }: PropsWithChildren<any>) {
       const logRes = await login(wxlogRes.code)
       Taro.setStorageSync('token', logRes.data.data.token)
       const userRes = await getUserInfo()
-      if (userRes.data.data.avatar_url && userRes.data.data.name) {
-        setUserInfo(userRes.data.data)
+      console.log('userRes', userRes)
+      if (userRes.data.data) {
+        const userInfo = userRes.data.data
+        setUserInfo({
+          nickName: userInfo.name,
+          avatarUrl: userInfo.avatar_url,
+          desc: userInfo.user_desc,
+          gender: userInfo.gender
+        })
       }
       run()
       Taro.showToast({ title: '登录成功', icon: 'success' })

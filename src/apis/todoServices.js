@@ -64,15 +64,34 @@ export const getUserInfo = async () => {
     })
     if (result.statusCode === 401) {
       // Token 过期或无效
-      console.log('登录已过期=====')
-
       Taro.removeStorageSync('token')
       await showLoginDialog()
       throw new Error('登录已过期')
     }
     return result
   } catch (err) {
-    console.log('-----===>', err)
+    throw err
+  }
+}
+// 获取用户信息
+export const updateUserInfo = async params => {
+  try {
+    const result = await Taro.request({
+      url: `${BASE_URL}/updateUserinfo`,
+      method: 'PUT',
+      header: {
+        Authorization: `Bearer ${Taro.getStorageSync('token')}`
+      },
+      data: params
+    })
+    if (result.statusCode === 401) {
+      // Token 过期或无效
+      Taro.removeStorageSync('token')
+      await showLoginDialog()
+      throw new Error('登录已过期')
+    }
+    return result
+  } catch (err) {
     throw err
   }
 }
@@ -177,6 +196,27 @@ export const completeTodo = async ({ id, completed }) => {
     return result
   } catch (err) {
     console.log(err)
+    throw err
+  }
+}
+
+export const uploadAvatar = async filePath => {
+  try {
+    const token = Taro.getStorageSync('token')
+    const result = await Taro.uploadFile({
+      url: `${BASE_URL}/upload`,
+      filePath: filePath,
+      name: 'avatar', // 必须与后端 multer.single('avatar') 中的字段名一致
+      header: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    // 解析返回的数据
+    const data = JSON.parse(result.data)
+    return data
+  } catch (err) {
+    console.log('上传失败:', err)
     throw err
   }
 }
