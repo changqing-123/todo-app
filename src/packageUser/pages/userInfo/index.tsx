@@ -1,7 +1,7 @@
 import { updateUserInfo, uploadAvatar } from '@/apis/todoServices'
 import userInfoStore from '@/store/userInfoStore'
-import { Input, Picker, Popup } from '@taroify/core'
-import { Button, Image, Textarea, View } from '@tarojs/components'
+import { Button, Input, Picker, Popup } from '@taroify/core'
+import { Image, Textarea, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { useState } from 'react'
 import styles from './index.module.scss'
@@ -108,8 +108,10 @@ export default function UserInfoPage() {
             open-type="chooseAvatar"
             onChooseAvatar={onChangeAvatar}
           >
-            <text>头像</text>
-            <Image className={styles.avatar} src={submitValue.avatarUrl} />
+            <View className={styles.avatarBtnBox}>
+              <text>头像</text>
+              <Image className={styles.avatar} src={submitValue.avatarUrl} />
+            </View>
           </Button>
         </View>
         <View className={styles.itemContainer}>
@@ -142,7 +144,7 @@ export default function UserInfoPage() {
           />
         </View>
       </View>
-      <Button className={styles.saveBtn} onClick={onSaveInfo}>
+      <Button shape="round" className={styles.saveBtn} onClick={onSaveInfo}>
         保存更改
       </Button>
       <Popup open={openPicker} rounded placement="bottom">

@@ -1,6 +1,6 @@
 .index {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   border-top: 1rpx solid white;
   box-sizing: border-box;
   background-color: $todo-secondary-color;
@@ -16,12 +16,11 @@
     width: 78rpx;
     height: 78rpx;
     border-radius: 50%;
-    box-shadow: 2rpx 4rpx 4rpx #000000;
-    background-color: #004572;
-    opacity: 0.5;
+    box-shadow: 0rpx 0rpx 8rpx #999999;
+    background-color: $color-brand;
 
     font-size: 50rpx;
-    color: white;
+    color: #ffffff;
     text-align: center;
     line-height: 78rpx;
 

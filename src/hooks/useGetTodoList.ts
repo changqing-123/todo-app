@@ -1,24 +1,25 @@
 import { getTodoList } from '@/apis/todoServices'
 import todolistStore from '@/store/todolistStore'
 import { useRequest } from 'ahooks'
-import { useEffect } from 'react'
 
 export default function useGetTodoList() {
+  const list = todolistStore(state => state.list)
+  const setList = todolistStore(state => state.setList)
+  const statistics = todolistStore(state => state.statistics)
+  const setStatistics = todolistStore(state => state.setStatistics)
+
   const {
     loading,
     run,
     data: result
   } = useRequest(getTodoList, {
-    manual: true
-  })
-  const list = todolistStore(state => state.list)
-  const setList = todolistStore(state => state.setList)
-
-  useEffect(() => {
-    if (result && result.statusCode === 200) {
-      setList(result.data.data)
+    manual: true,
+    onSuccess: res => {
+      console.log('todolist', res)
+      setList(res.data.data)
+      setStatistics(res.data.statistics)
     }
-  }, [result])
+  })
 
-  return { loading, run, todoList: list }
+  return { loading, run, todoList: list, statistics }
 }

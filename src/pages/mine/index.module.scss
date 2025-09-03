@@ -1,12 +1,14 @@
 .container {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  padding-top: 10rpx;
+  box-sizing: border-box;
   background-color: $todo-secondary-color;
 
   .userInfo {
     height: 200rpx;
     background-color: $todo-primary-color;
-    opacity: 0.5;
+    opacity: 0.8;
     padding: 20rpx;
     margin: 10rpx;
     margin-top: 0;
@@ -30,13 +32,13 @@
       flex-direction: column;
     }
     .name {
-      color: white;
+      color: #222222;
       font-size: 32rpx;
       font-weight: 500;
     }
 
     .desc {
-      color: white;
+      color: #222222;
       font-size: 20rpx;
     }
 
@@ -49,7 +51,7 @@
     .setUserNickNameIpt {
       position: absolute;
       left: 170rpx;
-      color: white;
+      color: #222222;
       font-size: 32rpx;
       font-weight: 500;
     }

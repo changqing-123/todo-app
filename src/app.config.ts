@@ -21,8 +21,8 @@ export default defineAppConfig({
         selectedIconPath: './public/tabicon/mine-active.jpg'
       }
     ],
-    selectedColor: '#004572',
-    backgroundColor: '#E9F4FF',
+    selectedColor: '#27296d',
+    backgroundColor: '#ffffff',
     borderStyle: 'white'
   },
 
@@ -34,7 +34,7 @@ export default defineAppConfig({
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#E9F4FF',
+    navigationBarBackgroundColor: '#ffffff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
   }

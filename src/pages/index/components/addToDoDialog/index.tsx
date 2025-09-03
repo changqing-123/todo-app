@@ -1,5 +1,5 @@
 import { createTodo } from '@/apis/todoServices'
-import { Button, Form, Input, Popup, Radio, Textarea, Toast } from '@taroify/core'
+import { Button, ConfigProvider, Form, Input, Popup, Radio, Textarea, Toast } from '@taroify/core'
 import { FormInstance } from '@taroify/core/form'
 import { Cross } from '@taroify/icons'
 import { Text, View } from '@tarojs/components'
@@ -42,7 +42,14 @@ export default function AddToDoDialog({ open, onClose }) {
   }, [open])
 
   return (
-    <View>
+    <ConfigProvider
+      theme={{
+        radioCheckedIconBackgroundColor: '#27296d',
+        radioCheckedIconBorderColor: '#27296d',
+        buttonPrimaryBorderColor: '#27296d',
+        buttonPrimaryBackgroundColor: '#27296d'
+      }}
+    >
       <Popup
         className={styles.addDialog}
         placement="bottom"
@@ -66,10 +73,9 @@ export default function AddToDoDialog({ open, onClose }) {
               </Form.Control>
             </Form.Item>
             <Form.Item name="todo_desc">
-              {' '}
               {/* 添加描述输入框 */}
               <Form.Control>
-                <Textarea placeholder="待办事项描述（可选）" />
+                <Textarea placeholder="待办事项描述（可选）" autoHeight showCount maxlength={200} />
               </Form.Control>
             </Form.Item>
             <Form.Item name="priority" defaultValue={'low'}>
@@ -109,12 +115,12 @@ export default function AddToDoDialog({ open, onClose }) {
                 </Form.Control>
               </Form.Item>
             )}
-            <Button className={styles.addSubmit} shape="round" onClick={onSubmit}>
+            <Button color="primary" className={styles.addSubmit} shape="round" onClick={onSubmit}>
               确认添加
             </Button>
           </Form>
         </View>
       </Popup>
-    </View>
+    </ConfigProvider>
   )
 }

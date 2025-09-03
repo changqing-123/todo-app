@@ -1,14 +1,16 @@
 import Card from '@/components/Card/card'
-import todolistStore from '@/store/todolistStore'
-import { Text, View } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import useGetTodoList from '@/hooks/useGetTodoList'
+import { Tag } from '@taroify/core'
+import { View } from '@tarojs/components'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { VChart } from '@visactor/taro-vchart'
 import { useEffect, useState } from 'react'
 import { chartSpec, lineSpec } from './constants'
 import styles from './index.module.scss'
 
 export const StatsPage = () => {
-  const todoList = todolistStore(state => state.list)
+  // const todoList = todolistStore(state => state.list)
+  const { todoList, run, statistics } = useGetTodoList()
   const [pieData, setPieData] = useState<any>(chartSpec)
 
   useEffect(() => {
@@ -17,26 +19,46 @@ export const StatsPage = () => {
         ...preVal,
         data: {
           ...preVal.data,
-          values: [...todoList.map(item => ({ type: item.title, value: `${item.duration}` }))]
+          values: [
+            ...todoList
+              .filter(ite => ite.completed)
+              .map(item => ({ type: item.title, value: `${item.duration}` }))
+          ]
         }
       }))
     }
   }, [todoList])
 
-  useEffect(() => {
-    console.log('pieData', pieData)
-  }, [pieData])
-
-  console.log('StatsPage-todoList', todoList)
-  console.log('StatsPage-Taro.getEnv()', Taro.getEnv())
-
+  useDidShow(() => {
+    run()
+  })
   return (
     <View className={styles.container}>
       <Card title="待办统计">
         <View className={styles.sumTodoCount}>
-          <Text>总数：</Text>
-          <Text>已完成：</Text>
-          <Text>未完成：</Text>
+          <View>
+            <Tag style={{ backgroundColor: '#27296d', borderRadius: '12rpx' }} size="medium">
+              总数:{statistics.total}
+            </Tag>
+          </View>
+          <View>
+            <Tag
+              color="success"
+              size="medium"
+              style={{ backgroundColor: '#00396d', borderRadius: '12rpx' }}
+            >
+              已完成:{statistics.completed}
+            </Tag>
+          </View>
+          <View>
+            <Tag
+              color="danger"
+              size="medium"
+              style={{ backgroundColor: '#c93e5a', borderRadius: '12rpx' }}
+            >
+              未完成:{statistics.uncompleted}
+            </Tag>
+          </View>
         </View>
       </Card>
       <Card title="待办时长占比">
@@ -57,7 +79,7 @@ export const StatsPage = () => {
         <VChart
           style={{
             width: '100%',
-            height: '500rpx'
+            height: '300rpx'
           }}
           type={Taro.getEnv() as any}
           spec={lineSpec}

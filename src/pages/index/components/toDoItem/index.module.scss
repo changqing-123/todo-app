@@ -1,5 +1,4 @@
 .container {
-  color: white;
   font-size: 28rpx;
   width: 100%;
   padding: 20rpx;
@@ -9,15 +8,23 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  opacity: 0.5;
+  box-shadow: 0rpx 0rpx 8rpx rgba(0, 0, 0, 0.2);
+  opacity: 0.8;
 
-  .checkbox {
+  .itemStatus {
     margin-right: 20rpx;
-    // --checkbox-checked-icon-border-color:#004572;
-    // --checkbox-checked-icon-background-color: #fff;
+
+    .completedStatus {
+      color: green;
+    }
+
+    .unCompletedStatus {
+      color: #27296d;
+    }
   }
 
   .text {
+    color: black;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -30,6 +37,10 @@
   .delete {
     height: 30rpx;
     width: 28rpx;
-    color: white;
+    color: #27296d;
   }
+}
+
+.completed {
+  opacity: 0.5;
 }
