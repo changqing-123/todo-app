@@ -1,7 +1,8 @@
 import { completeTodo, deleteTodo } from '@/apis/todoServices'
 import userInfoStore from '@/store/userInfoStore'
 import { View } from '@tarojs/components'
-import { useEffect, useState } from 'react'
+import { useDidShow } from '@tarojs/taro'
+import { useState } from 'react'
 import useGetTodoList from '../../hooks/useGetTodoList'
 import AddToDoDialog from './components/addToDoDialog'
 import ToDOItem from './components/toDoItem'
@@ -43,12 +44,11 @@ export default function Index() {
     }
   }
 
-  useEffect(() => {
-    console.log('todoList', todoList)
-  }, [todoList])
+  useDidShow(() => {
+    run()
+    console.log('index page show.')
+  })
 
-  console.log('userInfo', userInfo)
-  console.log('Index-todoList', todoList)
   return (
     <View className={styles.index}>
       <View className={styles.container}>
@@ -58,6 +58,7 @@ export default function Index() {
             title={item.title}
             completed={item.completed}
             periods={item.created_at}
+            duration={item.duration}
             onChange={v => finishItem(item.id, !item.completed)}
             onDelete={() => onDeleteItem(item.id)}
           />

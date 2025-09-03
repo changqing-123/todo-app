@@ -15,10 +15,15 @@
     --radio-checked-icon-border-color: #00447299;
   }
 
+  .timerType {
+    --radio-checked-icon-background-color: #00447299;
+    --radio-checked-icon-border-color: #00447299;
+  }
+
   .addSubmit {
     width: 100%;
     color: white;
-    background: #004572;
+    background: $todo-primary-color;
     opacity: 0.5;
     margin-top: 24rpx;
   }

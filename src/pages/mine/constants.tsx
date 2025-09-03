@@ -1,4 +1,4 @@
-import { Edit, InfoOutlined, ShopCollectOutlined } from '@taroify/icons'
+import { Edit, InfoOutlined, ShopCollectOutlined, WarnOutlined } from '@taroify/icons'
 import Taro from '@tarojs/taro'
 
 const gotoUserInfoPage = () => {
@@ -21,6 +21,14 @@ export const settingList = [
     rightBtn: true,
     onRightClick: () => {
       console.log('帮助中心')
+    }
+  },
+  {
+    text: '退出登录',
+    icon: <WarnOutlined />,
+    rightBtn: true,
+    onRightClick: () => {
+      console.log('退出登录')
     }
   }
 ]

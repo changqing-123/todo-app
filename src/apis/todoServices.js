@@ -121,16 +121,13 @@ export const getTodoList = async () => {
 }
 
 // 创建任务
-export const createTodo = async ({ title, priority }) => {
+export const createTodo = async params => {
   try {
     const token = Taro.getStorageSync('token')
     const result = await Taro.request({
       url: `${BASE_URL}/create`,
       method: 'POST',
-      data: {
-        title,
-        priority
-      },
+      data: params,
       header: {
         Authorization: `Bearer ${token}`
       }

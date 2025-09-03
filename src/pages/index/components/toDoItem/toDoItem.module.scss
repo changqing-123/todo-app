@@ -1,0 +1,87 @@
+.toDoItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  .left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-radius: 50%;
+      margin-right: 15px;
+      position: relative;
+      flex-shrink: 0;
+
+      &.checked {
+        background-color: #007ACC;
+        border-color: #007ACC;
+
+        .checkmark {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 6px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
+      }
+    }
+
+    .content {
+      flex: 1;
+
+      .title {
+        display: block;
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 5px;
+
+        &.completed {
+          text-decoration: line-through;
+          color: #999;
+        }
+      }
+
+      .info {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: #999;
+
+        .date {
+          margin-right: 10px;
+        }
+
+        .duration {
+          // 时长样式
+        }
+      }
+    }
+  }
+
+  .delete {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    .deleteIcon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

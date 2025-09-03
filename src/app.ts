@@ -12,15 +12,19 @@ function App({ children }: PropsWithChildren<any>) {
 
   useLaunch(async () => {
     console.log('App launched.')
-    const userRes = await getUserInfo()
-    if (userRes.data.data) {
-      const userInfo = userRes.data.data
-      setUserInfo({
-        nickName: userInfo.name,
-        avatarUrl: userInfo.avatar_url,
-        desc: userInfo.user_desc,
-        gender: userInfo.gender
-      })
+    try {
+      const userRes = await getUserInfo()
+      if (userRes.data.data) {
+        const userInfo = userRes.data.data
+        setUserInfo({
+          nickName: userInfo.name,
+          avatarUrl: userInfo.avatar_url,
+          desc: userInfo.user_desc,
+          gender: userInfo.gender
+        })
+      }
+    } catch (error) {
+      console.error('获取用户信息失败:', error)
     }
   })
 
