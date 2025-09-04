@@ -1,0 +1,23 @@
+.timerArea {
+  width: 500rpx;
+  height: 500rpx;
+  background-color: rgba(255, 255, 255, 0.8);
+
+  border-radius: 50%;
+  padding: 40rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  box-shadow: 0rpx 0rpx 8rpx rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  color: $color-brand;
+  font-size: 28rpx;
+
+  .time {
+    font-size: 40rpx;
+    font-weight: bolder;
+  }
+}

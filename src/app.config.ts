@@ -30,6 +30,10 @@ export default defineAppConfig({
     {
       root: 'packageUser',
       pages: ['pages/userInfo/index']
+    },
+    {
+      root: 'packageTimer',
+      pages: ['pages/timer/index']
     }
   ],
   window: {

@@ -197,6 +197,31 @@ export const completeTodo = async ({ id, completed }) => {
   }
 }
 
+// 修改任务
+export const updateTodo = async params => {
+  try {
+    const token = Taro.getStorageSync('token')
+    const result = await Taro.request({
+      url: `${BASE_URL}/update`,
+      method: 'POST',
+      data: params,
+      header: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    if (result.statusCode === 401) {
+      // Token 过期或无效
+      Taro.removeStorageSync('token')
+      await showLoginDialog()
+      throw new Error('登录已过期')
+    }
+    return result
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
 export const uploadAvatar = async filePath => {
   try {
     const token = Taro.getStorageSync('token')

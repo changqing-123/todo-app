@@ -1,17 +1,6 @@
+import { ITodoListStore } from '@/interface'
 import { create } from 'zustand'
 
-interface IStatistics {
-  completed: number
-  total: number
-  uncompleted: number
-  [key: string]: number
-}
-interface ITodoListStore {
-  list: any[]
-  setList: (list: any[]) => void
-  statistics: IStatistics
-  setStatistics: (statistics: IStatistics) => void
-}
 export default create(
   (set): ITodoListStore => ({
     list: [],

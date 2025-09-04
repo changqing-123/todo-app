@@ -56,9 +56,7 @@ export default function Index() {
           <ToDOItem
             key={item.id}
             title={item.title}
-            completed={item.completed}
-            periods={item.created_at}
-            duration={item.duration}
+            data={item}
             onChange={v => finishItem(item.id, !item.completed)}
             onDelete={() => onDeleteItem(item.id)}
           />

@@ -31,13 +31,17 @@
 
     .periods {
       font-size: 16rpx;
+      margin-top: 10rpx;
     }
   }
 
   .delete {
     height: 30rpx;
-    width: 28rpx;
+    width: 140rpx;
     color: #27296d;
+    font-size: 40rpx;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 

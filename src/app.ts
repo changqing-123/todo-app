@@ -3,7 +3,6 @@ import { PropsWithChildren } from 'react'
 
 import { getUserInfo, login } from './apis/todoServices'
 import './app.scss'
-import './custom-theme.scss'
 import useGetTodoList from './hooks/useGetTodoList'
 import userInfoStore from './store/userInfoStore'
 

@@ -1,40 +1,55 @@
-import { Button } from '@taroify/core'
-import { Checked, Delete, Underway } from '@taroify/icons'
+import { updateTodo } from '@/apis/todoServices'
+import { ITodoItem } from '@/interface'
+import { Dialog } from '@taroify/core'
+import { Checked, Delete, Play } from '@taroify/icons'
 import { Text, View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import styles from './index.module.scss'
 
 interface IProps {
   title: string
-  completed: boolean
-  periods: string
-  duration: number
+  data: ITodoItem
   onChange: (checked: boolean) => void
   onDelete: () => void
 }
-export default function ToDOItem({
-  title,
-  completed,
-  onChange,
-  onDelete,
-  periods,
-  duration
-}: IProps) {
+export default function ToDOItem({ title, data, onChange, onDelete }: IProps) {
+  const onPlay = async id => {
+    try {
+      const res = await updateTodo({ id: data.id, start_time: Date.now() })
+      console.log('res', res)
+      Taro.navigateTo({ url: '/packageTimer/pages/timer/index?id=' + data.id })
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
-    <View className={`${styles.container} ${completed ? styles.completed : ''}`}>
+    <View className={`${styles.container} ${data.completed ? styles.completed : ''}`}>
       <View className={styles.itemStatus}>
-        {completed ? (
-          <Checked className={styles.completedStatus} />
-        ) : (
-          <Underway className={styles.unCompletedStatus} onClick={onChange} />
-        )}
+        <Checked
+          className={data.completed ? styles.completedStatus : styles.unCompletedStatus}
+          onClick={() => {
+            onChange(!data.completed)
+          }}
+        />
       </View>
       <View className={styles.text}>
         <Text className={styles.title}>{title}</Text>
-        <Text className={styles.periods}>{duration ? duration : null}</Text>
+        <Text className={styles.periods}>{data.duration ? data.duration : null}min</Text>
       </View>
-      <Button className={styles.delete} onClick={onDelete} variant="text">
-        <Delete />
-      </Button>
+      <View className={styles.delete}>
+        {data.completed ? null : <Play style={{ marginRight: '40rpx' }} onClick={onPlay} />}
+        <Delete
+          onClick={() => {
+            Dialog.confirm({
+              title: '提示',
+              message: '确定要删除吗？',
+              onConfirm: () => {
+                onDelete()
+              }
+            })
+          }}
+        />
+      </View>
     </View>
   )
 }
