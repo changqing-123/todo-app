@@ -11,6 +11,7 @@ interface IProps {
   style?: React.CSSProperties
   active: boolean
   onPlause: () => void
+  onFinish: (params: () => void) => void
 }
 export default function TimerCom({
   timerType,
@@ -18,9 +19,10 @@ export default function TimerCom({
   title,
   style = {},
   onPlause,
-  active
+  active,
+  onFinish
 }: IProps) {
-  const { timeStr } = useTimer({ timerType, duration, paused: !active })
+  const { timeStr } = useTimer({ timerType, duration, paused: !active, onFinish })
 
   return (
     <View className={styles.timerArea} style={style} onClick={onPlause}>
