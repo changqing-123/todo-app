@@ -2,7 +2,7 @@ import { completeTodo, deleteTodo } from '@/apis/todoServices'
 import { ITodoItem } from '@/interface'
 import userInfoStore from '@/store/userInfoStore'
 import { ConfigProvider, Empty, Tabs } from '@taroify/core'
-import { View } from '@tarojs/components'
+import { ScrollView, View } from '@tarojs/components'
 import { useDidShow } from '@tarojs/taro'
 import { useEffect, useState } from 'react'
 import useGetTodoList from '../../hooks/useGetTodoList'
@@ -21,6 +21,7 @@ export default function Index() {
   const [todoListRender, setTodoListRender] = useState<ITodoItem[]>([])
   const [activeTab, setActiveTab] = useState<string>('all')
   const userInfo = userInfoStore(state => state.userInfo)
+
   const onCloseDialog = () => {
     setOpen(false)
     run()
@@ -62,7 +63,6 @@ export default function Index() {
 
   useDidShow(() => {
     run()
-    console.log('index page show.')
   })
 
   useEffect(() => {
@@ -91,7 +91,20 @@ export default function Index() {
         <Tabs style={{ margin: 0 }} value={activeTab} defaultValue={'all'} onChange={onChangeTab}>
           {tabs.map(tab => (
             <Tabs.TabPane value={tab.key} title={tab.title}>
-              <View className={styles.container}>
+              <ScrollView
+                className={styles.container}
+                scrollY
+                scrollWithAnimation
+                scrollTop={0}
+                lowerThreshold={20}
+                upperThreshold={20}
+                onScrollToUpper={e => {
+                  console.log('scrollToUpper', e)
+                }}
+                onScroll={e => {
+                  console.log('scroll', e)
+                }}
+              >
                 {todoListRender.length <= 0 ? (
                   <Empty>
                     <Empty.Description style={{ color: '#27296d' }}>没有内容哦~</Empty.Description>
@@ -106,7 +119,7 @@ export default function Index() {
                     onDelete={() => onDeleteItem(item.id)}
                   />
                 ))}
-              </View>
+              </ScrollView>
             </Tabs.TabPane>
           ))}
         </Tabs>

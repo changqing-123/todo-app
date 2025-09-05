@@ -1,4 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: '待办事项',
-  disableScroll: true
+  navigationBarTitleText: '待办事项'
+  // disableScroll: true
 })

@@ -15,9 +15,12 @@ interface IProps {
 export default function ToDOItem({ title, data, onChange, onDelete }: IProps) {
   const onPlay = async id => {
     try {
-      const res = await updateTodo({ id: data.id, start_time: Date.now() })
+      const startTime = Date.now()
+      const res = await updateTodo({ id: data.id, start_time: startTime })
       console.log('res', res)
-      Taro.navigateTo({ url: '/packageTimer/pages/timer/index?id=' + data.id })
+      Taro.navigateTo({
+        url: `/packageTimer/pages/timer/index?id=${data.id}&start_time=${startTime}`
+      })
     } catch (error) {
       console.error(error)
     }
