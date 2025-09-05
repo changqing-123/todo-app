@@ -1,10 +1,11 @@
 import useTimer from '@/hooks/useTimer'
+import { ITodoItem } from '@/interface'
 import { Text, View } from '@tarojs/components'
 import React from 'react'
 import styles from './index.module.scss'
 
 interface IProps {
-  timerType: 'forward' | 'backward'
+  timerType: ITodoItem['timer_type']
   duration: number
   title: string
   style?: React.CSSProperties

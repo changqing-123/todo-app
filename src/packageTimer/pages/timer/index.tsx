@@ -1,5 +1,6 @@
 import { updateTodo } from '@/apis/todoServices'
 import TimerCom from '@/components/timerCom'
+import { ITodoItem } from '@/interface'
 import { Button, Dialog } from '@taroify/core'
 import { PauseCircle, PlayCircle, StopCircle } from '@taroify/icons'
 import { Text, View } from '@tarojs/components'
@@ -15,6 +16,7 @@ export default function TimerPage() {
   const [totalElapsedTime, setTotalElapsedTime] = useState(0)
 
   const router = Taro.useRouter()
+  const { id, timer_type, duration, title } = router.params
 
   useDidShow(() => {
     console.log('timer page show.', router)
@@ -42,7 +44,7 @@ export default function TimerPage() {
     // 计算当前时段时长
     const currentDuration = active && startTime > 0 ? current - startTime : 0
     // 累计时长 单位：秒
-    const duration = (totalElapsedTime + currentDuration) / 1000
+    const totalDuration = (totalElapsedTime + currentDuration) / 1000
 
     Dialog.confirm({
       title: '提示',
@@ -50,9 +52,9 @@ export default function TimerPage() {
       onConfirm: async () => {
         try {
           const res = await updateTodo({
-            id: Number(router.params.id),
+            id: Number(id),
             end_time: current,
-            duration,
+            duration: totalDuration,
             completed: true
           })
           console.log('res', res)
@@ -71,9 +73,9 @@ export default function TimerPage() {
         <TimerCom
           active={active}
           onPlause={onPause}
-          title="计时"
-          timerType="forward"
-          duration={60 * 20}
+          title={title || ''}
+          timerType={(timer_type as ITodoItem['timer_type']) || 'forward'}
+          duration={Number(duration)}
         />
       </View>
       <View className={styles.btnArea}>

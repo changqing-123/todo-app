@@ -16,7 +16,8 @@ export default function AddToDoDialog({ open, onClose }) {
       await formRef.current.validate()
       const values: any = formRef.current.getValues()
       if (values.duration) {
-        values.duration = Number(values.duration)
+        // 转换为秒
+        values.duration = Number(values.duration) * 60
       }
       const res = await createTodo(values)
       if (res.statusCode === 200) {
@@ -42,14 +43,6 @@ export default function AddToDoDialog({ open, onClose }) {
   }, [open])
 
   return (
-    // <ConfigProvider
-    //   theme={{
-    //     radioCheckedIconBackgroundColor: '#27296d',
-    //     radioCheckedIconBorderColor: '#27296d',
-    //     buttonPrimaryBorderColor: '#27296d',
-    //     buttonPrimaryBackgroundColor: '#27296d'
-    //   }}
-    // >
     <Popup
       className={styles.addDialog}
       placement="bottom"
@@ -111,7 +104,7 @@ export default function AddToDoDialog({ open, onClose }) {
           {timerType !== 'none' && (
             <Form.Item name="duration" rules={[{ required: true, message: '请输入计时时长' }]}>
               <Form.Control>
-                <Input placeholder="请输入计时时长" />
+                <Input placeholder="请输入计时时长 单位为分钟" />
               </Form.Control>
             </Form.Item>
           )}
@@ -121,6 +114,5 @@ export default function AddToDoDialog({ open, onClose }) {
         </Form>
       </View>
     </Popup>
-    // </ConfigProvider>
   )
 }

@@ -21,3 +21,10 @@ export interface ITodoItem {
   timer_type?: 'forward' | 'backward' | 'none'
   todo_desc?: string // 添加todo_desc字段
 }
+
+export interface IFormatTime {
+  hours: number
+  minutes: number
+  seconds: number
+  timer: string
+}

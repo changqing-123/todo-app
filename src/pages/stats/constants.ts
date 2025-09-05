@@ -1,3 +1,5 @@
+import { formateTime, renderDuration } from '@/utils/time'
+
 const mainTheme = {
   colorScheme: {
     default: {
@@ -966,7 +968,11 @@ export const chartSpec = {
       content: [
         {
           key: datum => datum['type'],
-          value: datum => datum['value'] + '%'
+          value: datum => {
+            const { hours, minutes, seconds } = formateTime(datum['value'] as unknown as number)
+            const value = renderDuration({ hours, minutes, seconds })
+            return value
+          }
         }
       ]
     }

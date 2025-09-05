@@ -1,13 +1,15 @@
+import { IFormatTime, ITodoItem } from '@/interface'
 import { formateTime } from '@/utils/time'
 import { useEffect, useState } from 'react'
 
 interface IProps {
   paused: boolean
-  timerType: 'forward' | 'backward'
+  timerType: ITodoItem['timer_type']
   duration: number
 }
 export default function useTimer({ paused = true, timerType, duration = 0 }: IProps) {
   const [time, setTime] = useState(timerType === 'forward' ? 0 : duration)
+  const [timeInfo, setTimeInfo] = useState<IFormatTime>()
 
   useEffect(() => {
     if (paused) return
@@ -33,5 +35,10 @@ export default function useTimer({ paused = true, timerType, duration = 0 }: IPr
     return () => clearInterval(timer)
   }, [paused, timerType, duration])
 
-  return { time, timeStr: formateTime(time) }
+  useEffect(() => {
+    const info = formateTime(time)
+    setTimeInfo(info)
+  }, [time])
+
+  return { time, timeStr: timeInfo?.timer }
 }
