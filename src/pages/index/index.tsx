@@ -1,15 +1,25 @@
 import { completeTodo, deleteTodo } from '@/apis/todoServices'
+import { ITodoItem } from '@/interface'
 import userInfoStore from '@/store/userInfoStore'
+import { ConfigProvider, Empty, Tabs } from '@taroify/core'
 import { View } from '@tarojs/components'
 import { useDidShow } from '@tarojs/taro'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useGetTodoList from '../../hooks/useGetTodoList'
 import AddToDoDialog from './components/addToDoDialog'
 import ToDOItem from './components/toDoItem'
 import styles from './index.module.scss'
+
+const tabs = [
+  { title: '全部', key: 'all' },
+  { title: '已完成', key: 'completed' },
+  { title: '未完成', key: 'uncompleted' }
+]
 export default function Index() {
   const [open, setOpen] = useState(false)
   const { todoList, run } = useGetTodoList()
+  const [todoListRender, setTodoListRender] = useState<ITodoItem[]>([])
+  const [activeTab, setActiveTab] = useState<string>('all')
   const userInfo = userInfoStore(state => state.userInfo)
   const onCloseDialog = () => {
     setOpen(false)
@@ -44,29 +54,68 @@ export default function Index() {
     }
   }
 
+  const onChangeTab = value => {
+    console.log('tab', value)
+
+    setActiveTab(value)
+  }
+
   useDidShow(() => {
     run()
     console.log('index page show.')
   })
 
-  return (
-    <View className={styles.index}>
-      <View className={styles.container}>
-        {todoList.map(item => (
-          <ToDOItem
-            key={item.id}
-            title={item.title}
-            data={item}
-            onChange={v => finishItem(item.id, !item.completed)}
-            onDelete={() => onDeleteItem(item.id)}
-          />
-        ))}
-      </View>
-      <View className={styles.buttonArea} onClick={onOpenDialog}>
-        +
-      </View>
+  useEffect(() => {
+    if (activeTab === 'all') {
+      setTodoListRender(todoList)
+    }
+    if (activeTab === 'completed') {
+      setTodoListRender(todoList.filter(item => item.completed))
+    }
+    if (activeTab === 'uncompleted') {
+      setTodoListRender(todoList.filter(item => !item.completed))
+    }
+  }, [todoList, activeTab])
 
-      <AddToDoDialog open={open} onClose={onCloseDialog} />
-    </View>
+  return (
+    <ConfigProvider
+      theme={{
+        radioCheckedIconBackgroundColor: '#27296d',
+        radioCheckedIconBorderColor: '#27296d',
+        buttonPrimaryBorderColor: '#27296d',
+        buttonPrimaryBackgroundColor: '#27296d',
+        tabsLineBackgroundColor: '#27296d'
+      }}
+    >
+      <View className={styles.index}>
+        <Tabs style={{ margin: 0 }} value={activeTab} defaultValue={'all'} onChange={onChangeTab}>
+          {tabs.map(tab => (
+            <Tabs.TabPane value={tab.key} title={tab.title}>
+              <View className={styles.container}>
+                {todoListRender.length <= 0 ? (
+                  <Empty>
+                    <Empty.Description style={{ color: '#27296d' }}>没有内容哦~</Empty.Description>
+                  </Empty>
+                ) : null}
+                {todoListRender.map(item => (
+                  <ToDOItem
+                    key={item.id}
+                    title={item.title}
+                    data={item}
+                    onChange={v => finishItem(item.id, !item.completed)}
+                    onDelete={() => onDeleteItem(item.id)}
+                  />
+                ))}
+              </View>
+            </Tabs.TabPane>
+          ))}
+        </Tabs>
+        <View className={styles.buttonArea} onClick={onOpenDialog}>
+          +
+        </View>
+
+        <AddToDoDialog open={open} onClose={onCloseDialog} />
+      </View>
+    </ConfigProvider>
   )
 }
