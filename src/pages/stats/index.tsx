@@ -51,7 +51,7 @@ export const StatsPage = () => {
                   minute: '2-digit',
                   hour12: false
                 }),
-                value: item.duration
+                value: item.duration / 60
               }))
           ]
         }
