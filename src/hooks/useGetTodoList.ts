@@ -1,5 +1,6 @@
 import { getTodoList } from '@/apis/todoServices'
 import todolistStore from '@/store/todolistStore'
+import { Toast } from '@taroify/core'
 import { useRequest } from 'ahooks'
 
 export default function useGetTodoList() {
@@ -8,16 +9,19 @@ export default function useGetTodoList() {
   const statistics = todolistStore(state => state.statistics)
   const setStatistics = todolistStore(state => state.setStatistics)
 
-  const {
-    loading,
-    run,
-    data: result
-  } = useRequest(getTodoList, {
+  const { loading, run, data } = useRequest(getTodoList, {
     manual: true,
     onSuccess: res => {
       console.log('todolist', res)
       setList(res.data.data)
       setStatistics(res.data.statistics)
+    },
+    onError: error => {
+      console.log('err', error)
+
+      Toast.fail(error.errMsg)
+      setList([])
+      setStatistics({ total: 0, completed: 0, uncompleted: 0 })
     }
   })
 

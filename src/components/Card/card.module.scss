@@ -8,13 +8,14 @@
   box-shadow: 0rpx 0rpx 8rpx rgba(0, 0, 0, 0.2);
 
   .cardHeader {
-    font-size: 24rpx;
+    font-size: 28rpx;
     color: #222222;
+    font-weight: 600;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10rpx;
+    margin-bottom: 30rpx;
     box-sizing: border-box;
   }
 }

@@ -1,10 +1,10 @@
 import { completeTodo, deleteTodo } from '@/apis/todoServices'
 import { ITodoItem } from '@/interface'
 import userInfoStore from '@/store/userInfoStore'
-import { ConfigProvider, Empty, Tabs } from '@taroify/core'
+import { ConfigProvider, Empty, Skeleton, Tabs } from '@taroify/core'
 import { ScrollView, View } from '@tarojs/components'
 import { useDidShow } from '@tarojs/taro'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import useGetTodoList from '../../hooks/useGetTodoList'
 import AddToDoDialog from './components/addToDoDialog'
 import ToDOItem from './components/toDoItem'
@@ -17,7 +17,7 @@ const tabs = [
 ]
 export default function Index() {
   const [open, setOpen] = useState(false)
-  const { todoList, run } = useGetTodoList()
+  const { todoList, run, loading } = useGetTodoList()
   const [todoListRender, setTodoListRender] = useState<ITodoItem[]>([])
   const [activeTab, setActiveTab] = useState<string>('all')
   const userInfo = userInfoStore(state => state.userInfo)
@@ -105,20 +105,36 @@ export default function Index() {
                   console.log('scroll', e)
                 }}
               >
-                {todoListRender.length <= 0 ? (
-                  <Empty>
-                    <Empty.Description style={{ color: '#27296d' }}>没有内容哦~</Empty.Description>
-                  </Empty>
-                ) : null}
-                {todoListRender.map(item => (
-                  <ToDOItem
-                    key={item.id}
-                    title={item.title}
-                    data={item}
-                    onChange={v => finishItem(item.id, !item.completed)}
-                    onDelete={() => onDeleteItem(item.id)}
-                  />
-                ))}
+                {loading ? (
+                  <View>
+                    <Skeleton title row={3} />
+                    <Skeleton style={{ margin: '80rpx 0' }} title row={3} />
+                    <Skeleton style={{ margin: '80rpx 0' }} title row={3} />
+                    <Skeleton style={{ margin: '80rpx 0' }} title row={3} />
+                    <Skeleton style={{ margin: '80rpx 0' }} title row={3} />
+                    <Skeleton title row={3} />
+                  </View>
+                ) : (
+                  <Fragment>
+                    {todoListRender.length <= 0 ? (
+                      <Empty>
+                        <Empty.Description style={{ color: '#27296d' }}>
+                          没有内容哦~
+                        </Empty.Description>
+                      </Empty>
+                    ) : (
+                      todoListRender.map(item => (
+                        <ToDOItem
+                          key={item.id}
+                          title={item.title}
+                          data={item}
+                          onChange={v => finishItem(item.id, !item.completed)}
+                          onDelete={() => onDeleteItem(item.id)}
+                        />
+                      ))
+                    )}
+                  </Fragment>
+                )}
               </ScrollView>
             </Tabs.TabPane>
           ))}
