@@ -1,4 +1,5 @@
 export default defineAppConfig({
+  lazyCodeLoading: 'requiredComponents',
   pages: ['pages/index/index', 'pages/stats/index', 'pages/mine/index'],
   tabBar: {
     list: [
@@ -35,6 +36,10 @@ export default defineAppConfig({
       root: 'packageTimer',
       pages: ['pages/timer/index']
     }
+    // {
+    //   root: 'packageStats',
+    //   pages: ['pages/stats/index']
+    // }
   ],
   window: {
     backgroundTextStyle: 'light',

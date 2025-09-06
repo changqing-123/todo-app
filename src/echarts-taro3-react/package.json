@@ -1,0 +1,31 @@
+{
+  "name": "echarts-taro3-react",
+  "version": "1.0.13",
+  "description": "taro3-react微信小程序echarts组件",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Cecilxx/mini-echarts.git"
+  },
+  "keywords": [
+    "echarts",
+    "weapp",
+    "taro3",
+    "react"
+  ],
+  "author": "Cecilxx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cecilxx/mini-echarts/issues"
+  },
+  "homepage": "https://github.com/Cecilxx/mini-echarts#readme",
+  "dependencies": {
+    "@tarojs/taro": "3.0.8",
+    "@tarojs/react": "3.0.8",
+    "react-dom": "^16.10.0",
+    "react": "^16.10.0"
+  }
+}

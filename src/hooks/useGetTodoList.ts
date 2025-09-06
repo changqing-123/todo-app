@@ -9,7 +9,7 @@ export default function useGetTodoList() {
   const statistics = todolistStore(state => state.statistics)
   const setStatistics = todolistStore(state => state.setStatistics)
 
-  const { loading, run, data } = useRequest(getTodoList, {
+  const { loading, run } = useRequest(getTodoList, {
     manual: true,
     onSuccess: res => {
       console.log('todolist', res)
@@ -18,7 +18,6 @@ export default function useGetTodoList() {
     },
     onError: error => {
       console.log('err', error)
-
       Toast.fail(error.errMsg)
       setList([])
       setStatistics({ total: 0, completed: 0, uncompleted: 0 })

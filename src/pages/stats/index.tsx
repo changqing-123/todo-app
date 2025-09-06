@@ -1,15 +1,16 @@
 import Card from '@/components/Card/card'
+import { EChart } from '@/echarts-taro3-react'
 import todolistStore from '@/store/todolistStore'
 import { Tag } from '@taroify/core'
 import { View } from '@tarojs/components'
-import Taro, { useDidHide, useDidShow } from '@tarojs/taro'
-import { VChart } from '@visactor/taro-vchart'
-import { useEffect, useMemo, useState } from 'react'
-import { chartSpec, lineSpec } from './constants'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { lineDefaultOption, pieDefaultOption } from './constants'
 import styles from './index.module.scss'
-
 export const StatsPage = () => {
-  const [chartKey, setChartKey] = useState(0)
+  const refPieChart = useRef<any>(null)
+  const refLineChart = useRef<any>(null)
+  const [pieOption, setPieOption] = useState<any>(pieDefaultOption)
+  const [lineOption, setLineOption] = useState(lineDefaultOption)
   const todoList = todolistStore(state => state.list)
   const statistics = todolistStore(state => state.statistics)
 
@@ -21,38 +22,6 @@ export const StatsPage = () => {
 
     return today === date
   }
-
-  // 处理饼图数据
-  const pieChartData = useMemo(() => {
-    if (!todoList || todoList.length === 0) return []
-
-    return todoList
-      .filter(ite => ite.completed)
-      .map(item => ({ type: item.title, value: item.duration }))
-  }, [todoList])
-
-  // 处理折线图数据
-  const lineChartData = useMemo(() => {
-    if (!todoList || todoList.length === 0) return []
-
-    return todoList
-      .filter(ite => ite.completed && ite.end_time && isToday(ite.end_time))
-      .sort((a, b) => new Date(a.end_time).getTime() - new Date(b.end_time).getTime())
-      .map(item => ({
-        time: new Date(item.end_time).toLocaleTimeString('zh-CN', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false
-        }),
-        value: item.duration / 60
-      }))
-  }, [todoList])
-
-  // 当数据变化时强制重新渲染图表
-  useEffect(() => {
-    // 每次数据变化时增加 key 值，强制重新渲染图表
-    setChartKey(prev => prev + 1)
-  }, [pieChartData, lineChartData])
 
   // 计算今天的统计数据
   const todayStats = useMemo(() => {
@@ -68,15 +37,67 @@ export const StatsPage = () => {
     return { count, totalDuration }
   }, [todoList])
 
-  useDidShow(() => {
-    console.log('统计页面显示')
-    // 页面显示时强制刷新
-    setChartKey(prev => prev + 1)
-  })
+  // 处理饼图数据
+  const pieChartData = useMemo(() => {
+    if (!todoList || todoList.length === 0) return []
 
-  useDidHide(() => {
-    console.log('统计页面隐藏')
-  })
+    return todoList
+      .filter(ite => ite.completed)
+      .map(item => ({ name: item.title, value: item.duration }))
+  }, [todoList])
+
+  // 处理折线图数据
+  const lineChartData = useMemo(() => {
+    if (!todoList || todoList.length === 0) return []
+
+    return todoList
+      .filter(ite => ite.completed && ite.end_time && isToday(ite.end_time))
+      .sort((a, b) => new Date(a.end_time).getTime() - new Date(b.end_time).getTime())
+      .map(item => [new Date(item.end_time).getTime(), item.duration / 60])
+  }, [todoList])
+
+  useEffect(() => {
+    if (!pieChartData || pieChartData.length === 0) {
+      return
+    }
+    const newOption: any = {
+      ...pieOption,
+      series: [{ ...pieOption.series[0], data: [...pieChartData] }]
+    }
+    setPieOption(newOption)
+  }, [pieChartData])
+
+  useEffect(() => {
+    if (!lineChartData || lineChartData.length === 0) {
+      return
+    }
+    const newOption: any = {
+      ...lineDefaultOption,
+      xAxis: {
+        ...lineDefaultOption.xAxis
+      },
+      series: [
+        {
+          ...lineDefaultOption.series[0],
+          data: [...lineChartData]
+        }
+      ]
+    }
+    setLineOption(newOption)
+  }, [lineChartData])
+
+  useEffect(() => {
+    if (refPieChart.current && pieOption) {
+      refPieChart.current.refresh(pieOption)
+    }
+  }, [refPieChart, pieOption])
+
+  useEffect(() => {
+    if (refLineChart.current && lineOption) {
+      console.log('lineOption', lineOption)
+      refLineChart.current.refresh(lineOption)
+    }
+  }, [refLineChart, lineOption])
 
   return (
     <View className={styles.container}>
@@ -117,50 +138,24 @@ export const StatsPage = () => {
         </View>
       </Card>
       <Card title="待办时长占比">
-        <VChart
-          key={`pie-chart-${chartKey}`} // 强制重新渲染
+        <View
           style={{
             width: '100%',
             height: '500rpx'
           }}
-          type={Taro.getEnv() as any}
-          spec={{
-            ...chartSpec,
-            data: [
-              {
-                id: 'pieData',
-                values: pieChartData.length > 0 ? pieChartData : [{ type: '暂无数据', value: 1 }]
-              }
-            ]
-          }}
-          canvasId={`pie-chart-${chartKey}`}
-          onChartReady={chart => {
-            console.log('饼图准备就绪', chartKey)
-          }}
-        />
+        >
+          <EChart ref={refPieChart} canvasId={`pie-chart`} />
+        </View>
       </Card>
       <Card title="每日专注统计">
-        <VChart
-          key={`line-chart-${chartKey}`} // 强制重新渲染
+        <View
           style={{
             width: '100%',
-            height: '300rpx'
+            height: '500rpx'
           }}
-          type={Taro.getEnv() as any}
-          spec={{
-            ...lineSpec,
-            data: [
-              {
-                id: 'lineData',
-                values: lineChartData.length > 0 ? lineChartData : [{ time: '00:00', value: 0 }]
-              }
-            ]
-          }}
-          canvasId={`bar-chart-${chartKey}`}
-          onChartReady={chart => {
-            console.log('折线图准备就绪', chartKey)
-          }}
-        />
+        >
+          <EChart ref={refLineChart} canvasId={`line-chart`} />
+        </View>
       </Card>
     </View>
   )

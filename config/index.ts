@@ -36,6 +36,9 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       resource: [path.resolve(__dirname, '..', 'src/app.scss')]
     },
     mini: {
+      optimizeMainPackage: {
+        enable: true
+      },
       postcss: {
         pxtransform: {
           enable: true,
@@ -48,9 +51,6 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      },
-      webpackChain(chain) {
-        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }
     },
     h5: {
